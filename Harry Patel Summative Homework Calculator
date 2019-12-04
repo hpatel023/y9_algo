@@ -1,232 +1,285 @@
-from tkinter import Tk, Label, Button
-
-class MyFirstGUI:
-    def __init__(self, master):
-        self.master = master
-        master.title("Homework Calulator")
-
-        self.label = Label(master, text="Homework Calulator")
-        self.label.pack()
-from tkinter import *
 import os
+import datetime
+import time
+from tkinter import *
+import time
+import os
+from tkinter import messagebox
+import turtle
+import datetime
+import time
+
+
  
-creds = 'tempfile.temp' # This just sets the variable creds to 'tempfile.temp'
+creds = 'tempfile.temp' 
  
-def Signup(): # This is the signup definition, 
-    global pwordE # These globals just make the variables global to the entire script, meaning any definition can use them
+def Signup(): 
+    global pwordE 
     global nameE
     global roots
  
-    roots = Tk() # This creates the window, just a blank one.
-    roots.title('Signup') # This renames the title of said window to 'signup'
-    intruction = Label(roots, text='Please Enter new Credidentials\n') # This puts a label, so just a piece of text saying 'please enter blah'
-    intruction.grid(row=0, column=0, sticky=E) # This just puts it in the window, on row 0, col 0. If you want to learn more look up a tkinter tutorial :)
+    roots = Tk() 
+    roots.title('Signup') 
+    intruction = Label(roots, text='Please Enter new Credentials\n') 
+    intruction.grid(row=0, column=0, sticky=E) 
  
-    nameL = Label(roots, text='New Username: ') # This just does the same as above, instead with the text new username.
-    pwordL = Label(roots, text='New Password: ') # ^^
-    nameL.grid(row=1, column=0, sticky=W) # Same thing as the instruction var just on different rows. :) Tkinter is like that.
-    pwordL.grid(row=2, column=0, sticky=W) # ^^
+    nameL = Label(roots, text='New Username: ') 
+    pwordL = Label(roots, text='New Password: ') 
+    nameL.grid(row=1, column=0, sticky=W) 
+    pwordL.grid(row=2, column=0, sticky=W) 
  
-    nameE = Entry(roots) # This now puts a text box waiting for input.
-    pwordE = Entry(roots, show='*') # Same as above, yet 'show="*"' What this does is replace the text with *, like a password box :D
-    nameE.grid(row=1, column=1) # You know what this does now :D
-    pwordE.grid(row=2, column=1) # ^^
+    nameE = Entry(roots) 
+    pwordE = Entry(roots, show='*') 
+    nameE.grid(row=1, column=1) 
+    pwordE.grid(row=2, column=1) 
  
-    signupButton = Button(roots, text='Signup', command=FSSignup) # This creates the button with the text 'signup', when you click it, the command 'fssignup' will run. which is the def
+    signupButton = Button(roots, text='Signup', command=FSSignup) 
     signupButton.grid(columnspan=2, sticky=W)
-    roots.mainloop() # This just makes the window keep open, we will destroy it soon
+    roots.mainloop() 
  
 def FSSignup():
-    with open(creds, 'w') as f: # Creates a document using the variable we made at the top.
-        f.write(nameE.get()) # nameE is the variable we were storing the input to. Tkinter makes us use .get() to get the actual string.
-        f.write('\n') # Splits the line so both variables are on different lines.
-        f.write(pwordE.get()) # Same as nameE just with pword var
-        f.close() # Closes the file
+    with open(creds, 'w') as f: 
+        f.write(nameE.get()) 
+        f.write('\n') 
+        f.write(pwordE.get())
+        f.close() 
  
-    roots.destroy() # This will destroy the signup window. :)
-    Login() # This will move us onto the login definition :D
+    roots.destroy() 
+    Login() 
  
 def Login():
     global nameEL
-    global pwordEL # More globals :D
+    global pwordEL 
     global rootA
  
-    rootA = Tk() # This now makes a new window.
-    rootA.title('Login') # This makes the window title 'login'
+    rootA = Tk() 
+    rootA.title('Login') 
  
-    intruction = Label(rootA, text='Please Login\n') # More labels to tell us what they do
-    intruction.grid(sticky=E) # Blahdy Blah
+    intruction = Label(rootA, text='Please Login\n') 
+    intruction.grid(sticky=E) 
  
-    nameL = Label(rootA, text='Username: ') # More labels
-    pwordL = Label(rootA, text='Password: ') # ^
+    nameL = Label(rootA, text='Username: ') 
+    pwordL = Label(rootA, text='Password: ') 
     nameL.grid(row=1, sticky=W)
     pwordL.grid(row=2, sticky=W)
  
-    nameEL = Entry(rootA) # The entry input
+    nameEL = Entry(rootA) 
     pwordEL = Entry(rootA, show='*')
     nameEL.grid(row=1, column=1)
     pwordEL.grid(row=2, column=1)
  
-    loginB = Button(rootA, text='Login', command=CheckLogin) # This makes the login button, which will go to the CheckLogin def.
+    loginB = Button(rootA, text='Login', command=CheckLogin) 
     loginB.grid(columnspan=2, sticky=W)
  
-    rmuser = Button(rootA, text='Delete User', fg='red', command=DelUser) # This makes the deluser button. blah go to the deluser def.
+    rmuser = Button(rootA, text='Delete User', fg='red', command=DelUser) 
     rmuser.grid(columnspan=2, sticky=W)
     rootA.mainloop()
  
 def CheckLogin():
     with open(creds) as f:
-        data = f.readlines() # This takes the entire document we put the info into and puts it into the data variable
-        uname = data[0].rstrip() # Data[0], 0 is the first line, 1 is the second and so on.
-        pword = data[1].rstrip() # Using .rstrip() will remove the \n (new line) word from before when we input it
+        data = f.readlines() 
+        uname = data[0].rstrip() 
+        pword = data[1].rstrip() 
  
-    if nameEL.get() == uname and pwordEL.get() == pword: # Checks to see if you entered the correct data.
-        r = Tk() # Opens new window
-        r.title(':D')
-        r.geometry('150x50') # Makes the window a certain size
-        rlbl = Label(r, text='\n[+] Logged In') # "logged in" label
-        rlbl.pack() # Pack is like .grid(), just different
+    if nameEL.get() == uname and pwordEL.get() == pword: 
+        r = Tk() 
+        r.title('Welcome to Homework Calculator')
+        r.geometry('1500x1000') 
+        rlbl = Label(r, text='Login was a great success, greatness awaits!')
+        rlbl.grid(row = 0, column = 5)
+        Label(r, text="High Priority Homework").grid(row=3)
+        Label(r, text="High Priority Homework").grid(row=4)
+        Label(r, text="High Priority Homework").grid(row=5)
+        Label(r, text="Medium Priority Homework").grid(row=6)
+        Label(r, text="Medium Priority Homework").grid(row=7)
+        Label(r, text="Medium Priority Homework").grid(row=8)
+        Label(r, text="Low Priority Homework").grid(row=9)
+        Label(r, text="Low Priority Homework").grid(row=10)
+        Label(r, text="Low Priority Homework").grid(row=11)
+        Label(r, text="Upoming Test").grid(row=12)
+        Label(r, text="Upoming Test").grid(row=13)
+        Label(r, text="Upoming Assignments").grid(row=14)
+        Label(r, text="Upoming Assignments").grid(row=15)
+        Label(r, text="Upoming Assignments").grid(row=16)
+        Label(r, text="Upoming Assignments").grid(row=17)
+
+        r1 = Entry(r)
+        r2 = Entry(r)
+        r3 = Entry(r)
+        r4 = Entry(r)
+        r5 = Entry(r)
+        r6 = Entry(r)
+        r7 = Entry(r)
+        r8 = Entry(r)
+        r9 = Entry(r)
+        r10 = Entry(r)
+        r11 = Entry(r)
+        r12 = Entry(r)
+        r13 = Entry(r)
+        r14 = Entry(r)
+        r15 = Entry(r)
+
+        r1.grid(row=3, column=1)
+        r2.grid(row=4, column=1)
+        r3.grid(row=5, column=1)
+        r4.grid(row=6, column=1)
+        r5.grid(row=7, column=1)
+        r6.grid(row=8, column=1)
+        r7.grid(row=9, column=1)
+        r8.grid(row=10, column=1)
+        r9.grid(row=11, column=1)
+        r10.grid(row=12, column=1)
+        r11.grid(row=13, column=1)
+        r12.grid(row=14, column=1)
+        r13.grid(row=15, column=1)
+        r14.grid(row=16, column=1)
+        r15.grid(row=17, column=1)
+
+        Label(r, text="Time Required").grid(row=3,column=3)
+        Label(r, text="Time Required").grid(row=4, column=3)
+        Label(r, text="Time Required").grid(row=5, column=3)
+        Label(r, text="Time Required").grid(row=6, column=3)
+        Label(r, text="Time Required").grid(row=7, column=3)
+        Label(r, text="Time Required").grid(row=8, column=3)
+        Label(r, text="Time Required").grid(row=9, column=3)
+        Label(r, text="Time Required").grid(row=10, column=3)
+        Label(r, text="Time Required").grid(row=11, column=3)
+        Label(r, text="Time Required").grid(row=12, column=3)
+        Label(r, text="Time Required").grid(row=13, column=3)
+        Label(r, text="Time Required").grid(row=14, column=3)
+        Label(r, text="Time Required").grid(row=15, column=3)
+        Label(r, text="Time Required").grid(row=16, column=3)
+        Label(r, text="Time Required").grid(row=17, column=3)
+
+        r1 = Entry(r)
+        r2 = Entry(r)
+        r3 = Entry(r)
+        r4 = Entry(r)
+        r5 = Entry(r)
+        r6 = Entry(r)
+        r7 = Entry(r)
+        r8 = Entry(r)
+        r9 = Entry(r)
+        r10 = Entry(r)
+        r11 = Entry(r)
+        r12 = Entry(r)
+        r13 = Entry(r)
+        r14 = Entry(r)
+        r15 = Entry(r)
+
+        r1.grid(row=3, column=4)
+        r2.grid(row=4, column=4)
+        r3.grid(row=5, column=4)
+        r4.grid(row=6, column=4)
+        r5.grid(row=7, column=4)
+        r6.grid(row=8, column=4)
+        r7.grid(row=9, column=4)
+        r8.grid(row=10, column=4)
+        r9.grid(row=11, column=4)
+        r10.grid(row=12, column=4)
+        r11.grid(row=13, column=4)
+        r12.grid(row=14, column=4)
+        r13.grid(row=15, column=4)
+        r14.grid(row=16, column=4)
+        r15.grid(row=17, column=4)
+
+        
+        def drawclock(radius,hours,minutes,length,color):
+            turtle.pensize(3)
+            turtle.penup()
+            turtle.goto(0,radius)
+            turtle.pendown()
+            turtle.fillcolor(color)
+            turtle.pencolor("darkgray")
+            turtle.begin_fill()
+            for degree in range(0,360,360//minutes):
+                turtle.circle(-radius,360//minutes)
+                turtle.right(90)
+                turtle.forward(length/3)
+                turtle.back(length/3)
+                turtle.left(90)
+            turtle.end_fill()
+            turtle.pencolor("black")
+            for degree in range(0,360,360//hours):
+                turtle.circle(-radius,360//hours)
+                turtle.right(90)
+                turtle.forward(length)
+                turtle.back(length)
+                turtle.left(90)
+            turtle.circle(-radius)
+
+        def drawhand(angle, radius, width, color, outline=False):
+            if outline:
+                turtle.pencolor("black")
+            else:
+                turtle.pencolor(color)
+            turtle.pensize(2)
+            turtle.penup()
+            turtle.home()
+            turtle.fillcolor(color)
+            turtle.begin_fill()
+            turtle.left(90)
+            turtle.right(angle)
+            turtle.forward(radius)
+            turtle.pendown()
+            turtle.left(150)
+            turtle.forward(width)
+            turtle.home()
+            turtle.left(90)
+            turtle.right(angle)
+            turtle.penup()
+            turtle.forward(radius)
+            turtle.pendown()
+            turtle.right(150)
+            turtle.forward(width)
+            turtle.home()
+            turtle.end_fill()
+
+        radius=200
+        turtle.speed(0)
+        turtle.hideturtle()
+        turtle.title("Analog Clock")
+        drawclock(radius,12,60,radius*.1,"lightgray")
+        current_time=datetime.datetime.now().time()
+        turtle.title(current_time.strftime("%H:%M Analog Clock"))
+        drawhand(current_time.minute * 6, radius * .9, radius // 10, "red")
+        drawhand(((current_time.hour + current_time.minute / 60) % 12) * 30, radius * .6, radius // 10, "blue")
+
+        while True:
+            new_time=datetime.datetime.now().time()
+            if current_time.minute is not new_time.minute:
+                turtle.title(new_time.strftime("%H:%M Analog Clock"))
+                drawhand(current_time.minute * 6, radius * .9, radius // 10, "lightgray")
+                drawhand(((current_time.hour + current_time.minute / 60) % 12) * 30, radius * .6, radius // 10, "lightgray")
+                drawhand(new_time.minute * 6, radius * .9, radius // 10, "gray")
+                drawhand(((new_time.hour + new_time.minute / 60) % 12) * 30, radius * .6, radius // 10, "black")
+            current_time=new_time
+            time.sleep(60)
+
+    
+
+       
         r.mainloop()
+ 
     else:
         r = Tk()
-        r.title('D:')
-        r.geometry('150x50')
-        rlbl = Label(r, text='\n[!] Invalid Login')
+        r.title('Please try again')
+        r.geometry('200x50')
+        rlbl = Label(r, text='Nice Try')
         rlbl.pack()
         r.mainloop()
- 
 def DelUser():
-    os.remove(creds) # Removes the file
-    rootA.destroy() # Destroys the login window
-    Signup() # And goes back to the start!
+    os.remove(creds) 
+    rootA.destroy() 
+    Signup() 
  
 if os.path.isfile(creds):
     Login()
-else: # This if else statement checks to see if the file exists. If it does it will go to Login, if not it will go to Signup :)
+else: 
     Signup()
-master.title("Homework")
-tk.Label(master, text="Label").grid(row=0)
-e1 = tk.Entry(master)
-e2 = tk.Entry(master)
-e1.grid(row=0, column=1)
-e2.grid(row=1, column=1)
-tkvar = tk.StringVar(master)
-choices = { '1','2'}
-from tkinter import *
-import time
 
-root=Tk()
 
-class Clock:
-    def __init__(self):
     
-        self.time1 = ''
-        self.time2 = time.strftime('%H:%M:%S')
-        self.mFrame = Frame()
-        self.mFrame.pack(side=TOP,expand=YES,fill=X)
-
-        self.watch = Label(self.mFrame, text=self.time2, font=('Helvetica',30,'bold'))
-        self.watch.pack()
-
-        self.changeLabel() #first call it manually
-
-    def changeLabel(self):
-        self.time2 = time.strftime('%H:%M:%S')
-        self.watch.configure(text=self.time2)
-        self.mFrame.after(200, self.changeLabel) #it'll call itself continuously
-      
-import datetime
-import time
-#TIMER
-#Enter Preferences
-
-supported_formats = ["hrs","min","sec"]
-
-print("\n")
-
-def get_input():
-    global unit_input
-    unit_input = input("Enter the format in which you want to time yourself:{}:".format(supported_formats))
-    unit_input.lower()
-
-#Check if the format entered is valid.
-get_input()
-
-if unit_input in supported_formats:
-    pass
-else:
-    print("Invalid Input.Please re-enter you desired format.\nThe input is case insenseitive")
-    get_input()
-
-def countdown_timer(x):
-    while x >= 0 :
-        x -= 1
-        print("{} remaining".format(str(datetime.timedelta(seconds=x))))
-        print("\n")
-        time.sleep(1)
-
-#Check for input and assign variable to determine the total amount of seconds
-def IOTimer():
-    while True:
-        try:
-            if unit_input == "hrs":
-                hours  = int(input("Enter the number of hours: "))
-                print("\n")
-                minutes = int(input("Enter the number of minutes: "))
-                print("\n")
-                seconds = int(input("Enter the number of seconds: "))
-                print("\n")
-                break
-            elif unit_input == "min":
-                hours = 0
-                minutes = int(input("Enter the number of minutes: "))
-                print("\n")
-                seconds = int(input("Enter the number of seconds: "))
-                print("\n")
-                break
-            elif unit_input == "sec":
-                hours = 0
-                minutes = 0
-                seconds = int(input("Enter the number of seconds: "))
-                print("\n")
-                break
-        except:
-            print("Invalid Input.Re-enter the values")
-            print("\n")
-            IOTimer()
-    hours_in_sec = hours*3600
-    minutes_in_sec = minutes*60
-    total_seconds = hours_in_sec + minutes_in_sec + seconds
-    print("Starting countdown for {}".format(str(datetime.timedelta(seconds=total_seconds))))
-    print("\n")
-    time.sleep(2)
-    countdown_timer(total_seconds)
-
-IOTimer()
-from tkinter import *
-import time
-
-while True:
-  uin = input(">> ")
- try:
-  when_to_stop = abs(int(uin))
- except KeyboardInterrupt:
-  break
- except:
-  print("Not a number!")
-
- while when_to_stop > 0:
-  m, s = divmod(when_to_stop, 60)
-  h, m = divmod(m, 60)
-  time_left = str(h).zfill(2) + ":" + str(m).zfill(2) + ":" + str(s).zfill(2)
-  print(time_left + "\r", end="")
-  time.sleep(1)
-  when_to_stop -= 1
- print()
-
-obj1 = Clock()
-root.mainloop()
-
 root = Tk()
 my_gui = MyFirstGUI(root)
 root.mainloop()
